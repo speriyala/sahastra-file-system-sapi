@@ -1,0 +1,20 @@
+%dw 2.0
+
+type auto_7464ccc8_84a1_44d4_8fdf_b0240b27ac03_Output_Payload = {
+  unitPrice: Number, 
+  country: String, 
+  itemType: String, 
+  totalProfit: Number, 
+  orderPriority: String, 
+  orderID: Number, 
+  unitsSold: Number, 
+  salesChannel: String, 
+  shipDate: String, 
+  unitCost: Number, 
+  totalRevenue: Number, 
+  region: String, 
+  orderDate: String, 
+  totalCost: Number, 
+  _?: Any
+}
+

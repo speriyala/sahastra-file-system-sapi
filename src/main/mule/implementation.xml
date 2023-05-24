@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
+	xmlns:compression="http://www.mulesoft.org/schema/mule/compression" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/compression http://www.mulesoft.org/schema/mule/compression/current/mule-compression.xsd">
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="40011747-01b8-469e-a087-ee8da6dafcb7" >
+		<http:request-connection host="${http.host}" protocol="HTTPS"/>
+	</http:request-config>
+	<flow name="getFileData" doc:id="7464ccc8-84a1-44d4-8fdf-b0240b27ac03" >
+		<logger level="INFO" doc:name="begin" doc:id="6eabb8b7-17e9-4299-a021-9fd3bb84a116" message="system API starts"/>
+		<http:request method="GET" doc:name="getRecordsFromExternal" doc:id="f29286b4-9334-4451-a743-760a93ff0177" config-ref="HTTP_Request_configuration" path="${http.path}"/>
+		<compression:extract doc:name="Extract" doc:id="7804958b-df1c-4d14-9a2b-2865b40e038b">
+			<compression:extractor>
+				<compression:zip-extractor />
+			</compression:extractor>
+		</compression:extract>
+		<ee:transform doc:name="transformDataCSV" doc:id="db98aa4f-0436-4e67-a76e-f729f972e7e9" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/csv header=false,escape = "" 
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<file:write doc:name="WriteIntoFile" doc:id="dceba285-345d-430b-aadb-657f50e57d0e" config-ref="File_Config" path="${file.name}"/>
+		<logger level="INFO" doc:name="Logger" doc:id="6135ef58-ae36-42a3-8106-def03f1f224f" />
+		<http:request method="POST" doc:name="Request" doc:id="70070ce1-d432-4ba0-b370-b5cf0c5a6562" config-ref="HTTP_Request_configuration_papi" path="/papi">
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="efee26ba-1ac9-4578-a1eb-c4051bedfbc2" />
+	</flow>
+</mule>

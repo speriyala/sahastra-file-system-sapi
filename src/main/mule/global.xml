@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<file:config name="File_Config" doc:name="File Config" doc:id="bc1607c5-78ac-4583-b00e-2cc92a1cab3c" >
+		<file:connection workingDir="C:\Users\ADMIN\Desktop\database_write3" />
+	</file:config>
+	<global-property doc:name="Global Property" doc:id="91671422-ea33-4375-9e50-8180711fd5ef" name="mule.env" value="dev" />
+	<configuration-properties doc:name="Configuration properties" doc:id="71ba95f3-5033-487f-aef9-619eceaa0e03" file="config/${mule.env}.yaml" />
+	<http:request-config name="HTTP_Request_configuration_papi" doc:name="HTTP Request configuration" doc:id="acb2136d-05f8-4ca5-b2ae-46feb70e3422" >
+		<http:request-connection host="localhost" port="8083" connectionIdleTimeout="300000"/>
+	</http:request-config>
+	<configuration doc:name="Configuration" doc:id="e93ed1ed-cf7a-4809-ac8a-85af325f2680" defaultErrorHandler-ref="Default_Error_Handler" />
+	
+</mule>

@@ -1,0 +1,7 @@
+http:
+  host: "excelbianalytics.com"
+  path: "/wp/wp-content/uploads/2017/07/100000-Sales-Records.zip"
+
+file:
+  path: "C:/Users/ADMIN/Desktop/database_write3"
+  name: "100000-Sales-Records.csv"
